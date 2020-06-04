@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
 
     public float speed = 10.0f;
 
+
     // Update is called once per frame
     void Update()
     {
