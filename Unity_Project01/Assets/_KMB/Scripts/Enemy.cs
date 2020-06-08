@@ -23,7 +23,11 @@ public class Enemy : MonoBehaviour
     {
         //자신도삭제 충동대상도삭제
         //Destroy(gameObject,1.0f);     //1초뒤에 삭제
+        ScoreManager.Instance.AddScore();
+        Debug.Log(collision.transform.name);
         Destroy(gameObject);
         Destroy(collision.gameObject); //충돌한대상이 collision이다
+
+        //점수추가
     }
 }

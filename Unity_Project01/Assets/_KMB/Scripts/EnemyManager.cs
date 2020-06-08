@@ -36,7 +36,7 @@ public class EnemyManager : MonoBehaviour
             spawnTime = Random.Range(0.5f, 2.0f);
             //에너미 생성
             GameObject enemy = Instantiate(enemyFactory);
-            enemy.transform.position = spawnPoint.transform.position;
+            //enemy.transform.position = spawnPoint.transform.position;
             //enemy.transform.position = spawnPoint.transform.position;
             int index = Random.Range(0, spawnPoints.Length);
             //enemy.transform.position = transform.GetChild(index).position;
