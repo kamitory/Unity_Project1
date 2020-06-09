@@ -13,17 +13,22 @@ public class PlayerFire : MonoBehaviour
     private float removeTime = 2.0f;
     LineRenderer lr;
 
+    AudioSource audio;
+
     private void Start()
     {
-        lr = GetComponent<LineRenderer>();  
+        lr = GetComponent<LineRenderer>();
         //중요!   게임오브젝트는 활성 비활성화 -> SetActive() 함수
         //      컴포넌트는 enabled
+
+        //오디오 소스 컴포넌트
+        audio = GetComponent<AudioSource>();
     }
     // Update is called once per frame
     void Update()
     {
         //Fire();
-        //FireRay();
+        FireRay();
 
         if (lr.enabled) ShowRay();
     }
@@ -32,7 +37,7 @@ public class PlayerFire : MonoBehaviour
     public void Fire()
     {
         //마우스 왼쪽 버튼 or 왼쪽 컨트롤 키
-        //if(Input.GetButtonDown("Fire1"))
+        if(Input.GetButtonDown("Fire1"))
         {
             //총알공장(총알프리팹)에서 총알을 무한대로 찍어낼 수 있다.
             //Instantiate() 함수로 프리팹 파일을 게임오브젝트로 만든다.
@@ -49,6 +54,8 @@ public class PlayerFire : MonoBehaviour
     {
        if(Input.GetButtonDown("Fire1"))
         {
+            //레이저 사운드 재생
+            audio.Play();
             RaycastHit hitInfo;
             curTime = 0.0f;
             lr.enabled = true;
@@ -103,5 +110,7 @@ public class PlayerFire : MonoBehaviour
         //총알 오브젝트의 위치 지정
         //bullet.transform.position = transform.position;
         bullet.transform.position = firePoint.transform.position;
+
+        SceneMgr.Instance.loadScene("StartScene");
     }
 }

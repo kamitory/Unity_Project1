@@ -6,6 +6,8 @@ public class Enemy : MonoBehaviour
 {
 
     public float speed = 10.0f;
+
+    public GameObject fxFactory;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,11 +25,19 @@ public class Enemy : MonoBehaviour
     {
         //자신도삭제 충동대상도삭제
         //Destroy(gameObject,1.0f);     //1초뒤에 삭제
-        ScoreManager.Instance.AddScore();
-        Debug.Log(collision.transform.name);
         Destroy(gameObject);
         Destroy(collision.gameObject); //충돌한대상이 collision이다
 
+        ShowEffect();
         //점수추가
+        ScoreManager.Instance.AddScore();
+        Debug.Log(collision.transform.name);
     }
+
+    void ShowEffect()
+    {
+        GameObject fx = Instantiate(fxFactory);
+        fx.transform.position = transform.position;
+    }
+
 }
