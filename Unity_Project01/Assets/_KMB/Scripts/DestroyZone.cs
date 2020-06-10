@@ -8,6 +8,14 @@ public class DestroyZone : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //이곳에서 트리거에 감지됨 오브젝트 제거하기 (총알, 에너미)
-        Destroy(other.gameObject);
+        //Destroy(other.gameObject);
+
+        if(other.gameObject.name == "Bullet")
+        {
+            other.gameObject.SetActive(false);
+        }
     }
+
+
 }
+        

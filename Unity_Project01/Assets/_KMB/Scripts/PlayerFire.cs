@@ -11,9 +11,18 @@ public class PlayerFire : MonoBehaviour
 
     private float curTime;
     private float removeTime = 2.0f;
+    private int fireIndex = 0;
     LineRenderer lr;
 
     AudioSource audio;
+
+    //오브젝트풀링에 사용할 최대총알수
+    int poolSize = 20;
+    
+    //오브젝트 풀
+
+    //1.배열
+    GameObject[] bulletPool;
 
     private void Start()
     {
@@ -23,7 +32,22 @@ public class PlayerFire : MonoBehaviour
 
         //오디오 소스 컴포넌트
         audio = GetComponent<AudioSource>();
+        //오브젝트 풀링 초기화
+        InitObjectPooling();
     }
+
+    private void InitObjectPooling()
+    {
+        //1.배열
+        bulletPool = new GameObject[poolSize];
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject bullet = Instantiate(bulletFactory);
+            bullet.SetActive(false);
+            bulletPool[i] = bullet;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -39,14 +63,23 @@ public class PlayerFire : MonoBehaviour
         //마우스 왼쪽 버튼 or 왼쪽 컨트롤 키
         if(Input.GetButtonDown("Fire1"))
         {
-            //총알공장(총알프리팹)에서 총알을 무한대로 찍어낼 수 있다.
+            //1. 배열 오브젝트 풀링으로 총알발사
+            bulletPool[fireIndex].SetActive(true);
+            bulletPool[fireIndex].transform.position = firePoint.transform.position;
+            bulletPool[fireIndex].transform.up = firePoint.transform.up;
+            fireIndex++;
+            if (fireIndex > poolSize) fireIndex = 0;
+
+            
+
+          /*  //총알공장(총알프리팹)에서 총알을 무한대로 찍어낼 수 있다.
             //Instantiate() 함수로 프리팹 파일을 게임오브젝트로 만든다.
 
             //총알 게임오브젝트 생성
             GameObject bullet = Instantiate(bulletFactory);
             //총알 오브젝트의 위치 지정
             //bullet.transform.position = transform.position;
-            bullet.transform.position = firePoint.transform.position;
+            bullet.transform.position = firePoint.transform.position;*/
         }
     }
 

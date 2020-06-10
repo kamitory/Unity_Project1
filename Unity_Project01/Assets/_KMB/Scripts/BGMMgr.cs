@@ -153,6 +153,6 @@ public class BGMMgr : MonoBehaviour
     }
     public void ReS()
     {
-        audioMain.
+        //audioMain.
     }
 }
