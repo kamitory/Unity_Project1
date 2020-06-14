@@ -10,7 +10,11 @@ public class PlayerFire : MonoBehaviour
     public GameObject firePoint;        //총알 발사위치
     public GameObject laser;
 
+    public GameObject lockedFire;
+    public GameObject lockedLaser;
+
     private float curTime;
+    private float curFireTime;
     private float removeTime = 1.0f;
     private int fireIndex = 0;
     //LineRenderer lr;
@@ -18,8 +22,9 @@ public class PlayerFire : MonoBehaviour
     private AudioSource audio;
 
     //오브젝트풀링에 사용할 최대총알수
-    private int poolSize = 10;
+    private int poolSize = 3;
     
+
     //오브젝트 풀
 
     //1.배열
@@ -32,7 +37,8 @@ public class PlayerFire : MonoBehaviour
         //      컴포넌트는 enabled
 
         laser = Instantiate(laser);
-        
+     
+
         //오디오 소스 컴포넌트
         audio = GetComponent<AudioSource>();
         //오브젝트 풀링 초기화
@@ -56,6 +62,12 @@ public class PlayerFire : MonoBehaviour
     void Update()
     {
         curTime += Time.deltaTime;
+        curFireTime += Time.deltaTime;
+
+        if(curTime > 10f) { lockedLaser.SetActive(false); }
+        else { lockedLaser.SetActive(true); }
+        if(curFireTime > 1.5f) { lockedFire.SetActive(false); }
+        else { lockedFire.SetActive(true); }
 
         //Fire();
         //FireRay();
@@ -146,13 +158,17 @@ public class PlayerFire : MonoBehaviour
     }
     public void OnFireButtonClick()
     {
-        //1. 배열 오브젝트 풀링으로 총알발사
-        bulletPool[fireIndex].SetActive(true);
-        bulletPool[fireIndex].transform.position = firePoint.transform.position;
-        bulletPool[fireIndex].transform.up = firePoint.transform.up;
-        fireIndex++;
-        if (fireIndex >= poolSize) fireIndex = 0;
-
+        if (bulletPool[fireIndex].activeSelf ==false && curFireTime > 1.5f)
+        {
+            curFireTime = 0f;
+            bulletFactory.GetComponentInChildren<SpriteRenderer>().size = new Vector2(1f, 3f);
+            //1. 배열 오브젝트 풀링으로 총알발사
+            bulletPool[fireIndex].SetActive(true);
+            bulletPool[fireIndex].transform.position = firePoint.transform.position;
+            bulletPool[fireIndex].transform.up = firePoint.transform.up;
+            fireIndex++;
+            if (fireIndex >= poolSize) fireIndex = 0;
+        }
         //총알공장(총알프리팹)에서 총알을 무한대로 찍어낼 수 있다.
         //Instantiate() 함수로 프리팹 파일을 게임오브젝트로 만든다.
 
@@ -166,7 +182,7 @@ public class PlayerFire : MonoBehaviour
     }
     public void OnLaserButtonClick()
     {
-        if (curTime > 2)
+        if (curTime >10)
         {
             laser.transform.localScale = new Vector3(laserSize / 5, 0.3f, laserSize / 5);
             laser.GetComponent<CapsuleCollider>().radius = laserSize * 2;
@@ -212,7 +228,7 @@ public class PlayerFire : MonoBehaviour
             laserSize += Time.deltaTime / 2;
 
             if (laserSize > 1.5f) { laserSize = 1.5f; }
-            Debug.Log(laserSize);
+          
         }
         if (Input.GetButtonUp("Fire1"))
         {

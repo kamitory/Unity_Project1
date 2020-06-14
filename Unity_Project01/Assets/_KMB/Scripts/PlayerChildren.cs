@@ -11,10 +11,39 @@ public class PlayerChildren : MonoBehaviour
 
     //몇번째 총을 꺼내야 하는지
     private int index = 0;
-    
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name.Contains("Item"))
+        {
+            Destroy(collision.gameObject);
+
+            if (index <= 1)
+            {
+                children[index].SetActive(true);
+                if (index != 0)
+                {
+                    ChildrenFire CF00 = children[0].GetComponent<ChildrenFire>();
+                    ChildrenFire CF01 = children[1].GetComponent<ChildrenFire>();
+
+                    CF01.count = CF00.count;
+
+                }
+                index++;
+            }
+
+
+            if(index >=2)
+            {
+                ScoreManager.Instance.AddScore(300);
+            }
+        }
+    }
     // Update is called once per frame
     void Update()
     {
+        
         if(Input.GetKeyDown(KeyCode.Space))
         {
             if (index <= 1)

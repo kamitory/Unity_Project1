@@ -11,11 +11,13 @@ public class Bullet : MonoBehaviour
     public float speed = 10.0f;
 
 
+
     // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.up * speed * Time.deltaTime);
     }
+
 
     //카메라 화면밖으로 나가서 보이지 않게 되면
     //호출되는 이벤트 함수

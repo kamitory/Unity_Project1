@@ -15,7 +15,7 @@ public class ScoreManager : MonoBehaviour
 
     int score = 0;
     int highScore = 0;
-
+    float curScore = 0f;
     private void Start()
     {
         highScore = PlayerPrefs.GetInt("HighScoree");
@@ -24,6 +24,13 @@ public class ScoreManager : MonoBehaviour
 
     private void Update()
     {
+        curScore += Time.deltaTime;
+        if (curScore > 0.3f)
+        {
+            score++;
+            curScore = 0;
+            scoreTxt.text = "Score : " + score;
+        }
         SaveHighScore();
     }
 
@@ -37,9 +44,9 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    public void AddScore()
+    public void AddScore(int sco)
     {
-        score++;
+        score+= sco;
         scoreTxt.text = "Score : " + score;
         //텍스트메시프로는 안됨
         textTxt.text = "test......";

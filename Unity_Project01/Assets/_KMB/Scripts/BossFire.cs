@@ -8,7 +8,7 @@ public class BossFire : MonoBehaviour
     public GameObject player;
     public GameObject bulletFactory;
     
-    public float fireTime = 1.0f;
+    public float fireTime = 1.2f;
     public float curTime = 0.0f;
     public float fireTime1 = 1.5f;
     public float curTime1 = 0.0f;
